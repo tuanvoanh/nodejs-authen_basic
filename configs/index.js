@@ -9,5 +9,6 @@ module.exports = {
       CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
       CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET
     }
-  }
+  },
+  SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
 }

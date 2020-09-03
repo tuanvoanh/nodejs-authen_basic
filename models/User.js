@@ -32,10 +32,10 @@ const UserSchema = new Schema({
       enum: ['local', 'google', 'facebook'],
       default: 'local'
     },
-    decks: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Deck'
-    }]
+    isActive: {
+      type: Boolean,
+      default: false
+    }
 })
 
 UserSchema.pre('save', async function(next) {
