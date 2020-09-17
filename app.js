@@ -5,10 +5,10 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const logger = require("morgan");
 const mongoClient = require("mongoose");
-
+const { MONGODB_URL } = require("./configs")
 // setup connect mongodb by mongoose
 mongoClient
-  .connect("mongodb://localhost/nodejsapistarter", {
+  .connect(MONGODB_URL, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -20,15 +20,14 @@ mongoClient
 
 const app = express();
 
-const deckRoute = require("./routes/deck");
 const userRoute = require("./routes/user");
 
 // Middlewares
 app.use(logger("dev"));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended : true}));
 
 // Routes
-app.use("/decks", deckRoute);
 app.use("/users", userRoute);
 
 // Routes

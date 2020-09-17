@@ -76,6 +76,10 @@ const schemas = {
         firstName: Joi.string().min(2),
         lastName: Joi.string().min(2),
         email: Joi.string().email()
+    }),
+
+    userResetPassword: Joi.object().keys({
+        email: Joi.string().email()
     })
 }
 

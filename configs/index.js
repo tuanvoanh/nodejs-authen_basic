@@ -11,4 +11,7 @@ module.exports = {
     }
   },
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
+  MONGODB_URL: process.env.MONGODB_URL || "mongodb://localhost/nodejsapistarter",
+  TEAM_EMAIL: process.env.TEAM_EMAIL,
+  BASE_URL: process.env.BASE_URL
 }

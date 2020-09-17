@@ -7,7 +7,7 @@ const UserController = require("../controllers/user");
 const {
   validateBody,
   validateParam,
-  schemas
+  schemas,
 } = require("../helpers/routerHelpers");
 
 const passport = require("passport");
@@ -36,7 +36,14 @@ router
 
 router
   .route("/secret")
-  .get(passport.authenticate("jwt", { session: false }), UserController.secret);
+  .get(passport.authenticate("body-jwt", { session: false }), UserController.secret);
+
+router
+  .route("/changePassword")
+  .get(passport.authenticate("body-jwt", { session: false }), UserController.forgotPassword)
+  .post(passport.authenticate("body-jwt", { session: false}), UserController.newPassword);
+
+router.post('/resetPassword', validateBody(schemas.userResetPassword), UserController.resetPassword)
 
 router
   .route("/:userID")

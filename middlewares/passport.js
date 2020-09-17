@@ -27,6 +27,46 @@ passport.use(
   )
 );
 
+passport.use("body-jwt",
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromUrlQueryParameter("token"),
+      secretOrKey: JWT_SECRET,
+    },
+    async (payload, done) => {
+      try {
+        const user = await User.findById(payload.sub);
+
+        if (!user) return done(null, false);
+
+        done(null, user);
+      } catch (error) {
+        done(error, false);
+      }
+    }
+  )
+);
+
+passport.use("token_query-jwt",
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromUrlQueryParameter("token"),
+      secretOrKey: JWT_SECRET,
+    },
+    async (payload, done) => {
+      try {
+        const user = await User.findById(payload.sub);
+
+        if (!user) return done(null, false);
+
+        done(null, user);
+      } catch (error) {
+        done(error, false);
+      }
+    }
+  )
+);
+
 // Passport local
 passport.use(
   new LocalStrategy(
@@ -35,14 +75,10 @@ passport.use(
     },
     async (email, password, done) => {
       try {
-        const user = await User.findOne({ email });
-
+        const user = await User.findOne({ email , isActive: true});
         if (!user) return done(null, false);
-
         const isCorrectPassword = await user.isValidPassword(password);
-
-        if (!isCorrectPassword) return done(null, false);
-
+        if (!isCorrectPassword) throw new Error("Invalid Password")
         done(null, user);
       } catch (error) {
         done(error, false);
